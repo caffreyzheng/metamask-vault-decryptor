@@ -3,6 +3,7 @@ const Component = require('react').Component
 const h = require('react-hyperscript')
 const connect = require('react-redux').connect
 const passworder = require('browser-passworder')
+const Promise = require('bluebird');
 
 module.exports = connect(mapStateToProps)(AppRoot)
 
@@ -100,16 +101,13 @@ AppRoot.prototype.decrypt = function(event) {
 
   passworder.decrypt(password, vault)
   .then((decryptedObj) => {
-    var codeList = decryptedObj[0].data.mnemonic;
-    var strList = []
-    for (let index = 0; index < codeList.length; index++) {
-        const element = codeList[index];
-        let tmp = String.fromCharCode(element);
-        strList.push(tmp);
-    }
-    let decrypted = strList.join("");
-
-    this.setState({ decrypted })
+    let codeList = decryptedObj[0].data.mnemonic;
+    Promise.map(codeList, (e)=>{
+      return String.fromCharCode(e);
+    }).then((r)=>{
+      let decrypted = r.join("");
+      this.setState({ decrypted })
+    });
   })
   .catch((reason) => {
     console.error(reason)

@@ -26,8 +26,8 @@
   "license": "ISC",
   "dependencies": {
     "atob": "^2.1.2",
+    "bluebird": "^3.7.2",
     "browser-passworder": "^2.0.3",
-    "crypto": "^1.0.1",
     "ethereumjs-util": "^5.1.2",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
